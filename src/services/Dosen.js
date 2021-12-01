@@ -109,8 +109,9 @@ export const uploadBAP = async (nip, materi, kegiatan, bukti, tanggal, idPerkuli
   //          tanggal (yyyy-mm-dd : string), idPerkuliahan (int), idJadwal (int)
   // return : bap yang disubmit
   try {
-    const dataBap = await getDataBAP(idPerkuliahan, idJadwal, tanggal)
-    const bap = await BapDAO.insertOne(materi, kegiatan, dataBap.minggu, bukti, dataBap.jumlah_mhs_hadir, dataBap.jumlah_mhs_tidak_hadir, tanggal, nip, idPerkuliahan)
+    //const dataBap = await getDataBAP(idPerkuliahan, idJadwal, tanggal)
+    const bap = await BapDAO.insertOne(materi, kegiatan, "123", bukti, 54321, 12345, tanggal, nip, idPerkuliahan)
+    //const bap = await BapDAO.insertOne(materi, kegiatan, dataBap.minggu, bukti, dataBap.jumlah_mhs_hadir, dataBap.jumlah_mhs_tidak_hadir, tanggal, nip, idPerkuliahan)
     return bap
   } catch (error) {
     return Promise.reject(error)
@@ -125,3 +126,34 @@ export const validasiKetidakhadiran = async (idKeterangan, isAccepted) => {
     return Promise.reject(error)
   }
 }
+
+// New Method From '19
+
+export const getSatuBAP = async (id_bap) => {
+  try{
+    const bap = await BapDAO.getBAPOne(id_bap)
+    return bap
+  } catch (error) {
+    return Promise.reject(error)
+  }
+}
+
+export const updateSatuBAP = async (id_bap, materi, kegiatan, bukti) => {
+  try{
+    const bap = await BapDAO.updateBAPOne(id_bap, materi, kegiatan, bukti)
+    return bap
+  } catch (error) {
+    return Promise.reject(error)
+  }
+}
+
+export const delSatuBAP = async (id_bap) => {
+  try{
+    const bap = await BapDAO.delBAPOne(id_bap)
+    return bap
+  } catch (error) {
+    return Promise.reject(error)
+  }
+}
+
+// End of Line New Method From '19
