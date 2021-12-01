@@ -3,11 +3,15 @@ import upload from '../middleware/upload'
 import * as MahasiswaServices from '../services/Mahasiswa'
 import * as DosenServices from '../services/Dosen'
 import * as DaftarHadirMahasiwaServices from '../services/DaftarHadirMahasiswa'
-import modelMhs from '@proyek3/postgres-database/models/Mahasiswa'
-import modelKelas from '@proyek3/postgres-database/models/Kelas'
+//import modelMhs from '@proyek3/postgres-database/models/Mahasiswa'
+//import modelKelas from '@proyek3/postgres-database/models/Kelas'
 import modelJadwal from '../models/Jadwal'
-import modelTU from '@proyek3/postgres-database/models/Tata_Usaha'
+//import modelTU from '@proyek3/postgres-database/models/Tata_Usaha'
 import axios from 'axios'
+
+import modelMhs from '../../../proyek3-postgres-database/src/models/Mahasiswa'
+import modelKelas from '../../../proyek3-postgres-database/src/models/Kelas'
+import modelTU from '../../../proyek3-postgres-database/src/models/Tata_Usaha'
 
 export const getSuratIzin = (req, res) => {
   const { filename } = req.params
