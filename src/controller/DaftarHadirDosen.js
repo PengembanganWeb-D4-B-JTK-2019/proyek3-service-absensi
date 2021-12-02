@@ -1,5 +1,39 @@
 import * as DosenService from '../services/Dosen'
 import * as DaftarHadirDosenService from '../services/DaftarHadirDosen'
+import * as DaftarHadirDosenDAO from '../dao/DaftarHadirDosen'
+
+// New Method From 19
+export const getRekapPresensiDosenTertentu = async (req, res) => {
+  const { NIP } = req.params
+  try {
+    const result = await DaftarHadirDosenDAO.getRekapPresensiDosenTertentu(NIP)
+    res.json({
+      message: `Data Rekap Presensi Dosen ${NIP}  `,
+      data: {
+        presensi: result
+      }
+    })
+  } catch (error) {
+    res.status(error.status).json({ error })
+  }
+}
+
+export const updatePresensiDosenTertentu = async (req, res) => {
+  const { NIP } = req.params
+  const { tanggal, isStudi, idJadwal } = req.body
+  try {
+    const result = await DaftarHadirDosenDAO.updatePresensiDosenTertentu(NIP, tanggal, isStudi, idJadwal)
+    res.json({
+      message: ` Presensi Dosen ${NIP} pada tanggal ${tanggal} id_studi ${isStudi} idJadwal ${idJadwal} berhasil  `,
+      data: {
+        presensi: result
+      }
+    })
+  } catch (error) {
+    res.status(error.status).json({ error })
+  }
+}
+//
 
 export const presensiDosenHandler = async (req, res, next) => {
   const { nip, idStudi, idJadwal } = req.query

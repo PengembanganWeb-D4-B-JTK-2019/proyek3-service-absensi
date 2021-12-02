@@ -1,6 +1,23 @@
 import Dosen from '../models/Dosen.js'
 import sequelize from '../db.js'
 
+// new Method From 19
+export const getPresensiDosenTertentu = async (NIP) => {
+  try {
+    const result = await sequelize.query(`
+    SELECT pengajar.nip, h_dosen."isHadir", matkul.id, matkul.nama_mata_kuliah 
+    FROM "Pengajar" pengajar
+    INNER JOIN "daftar_hadir_dosen" h_dosen ON pengajar.nip = h_dosen.nip
+    INNER JOIN "Perkuliahan" perkuliahan ON pengajar.id_perkuliahan = perkuliahan.id
+    INNER JOIN "Mata_Kuliah" matkul ON perkuliahan.id_mata_kuliah = matkul.id
+    WHERE pengajar.nip = '${NIP}'
+;
+    `)
+    return result
+  } catch (error) {
+    return Promise.reject(error)
+  }
+}
 /*
     CATATAN :
   1.File ini berisi seluruh function yang mengakses database

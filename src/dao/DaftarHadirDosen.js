@@ -3,6 +3,33 @@ import * as DosenDAO from './Dosen'
 import * as JadwalDAO from './Jadwal'
 import db from '../db'
 
+// new Method From 19
+export const getRekapPresensiDosenTertentu = async (NIP) => {
+  try {
+    const result = await db.query(`
+    SELECT "nip","isHadir","tanggal" FROM "daftar_hadir_dosen" 
+    WHERE "nip" = '${NIP}'
+;
+    `)
+    return result
+  } catch (error) {
+    return Promise.reject(error)
+  }
+}
+
+export const updatePresensiDosenTertentu = async (NIP, tanggal, idStudi, idJadwal) => {
+  try {
+    const result = await db.query(`
+    UPDATE "daftar_hadir_dosen"
+    SET "isHadir" = true
+    WHERE "nip" = '${NIP}' AND "tanggal" = '${tanggal}' AND "id_studi" = ${idStudi} AND "idJadwal" = ${idJadwal};
+    `)
+    return result
+  } catch (error) {
+    return Promise.reject(error)
+  }
+}
+//
 export const insertOne = async (nip, idStudi, tanggal, isHadir, idJadwal) => {
   // Belum dicoba karena membutuhkan data dari db common
   try {
@@ -73,8 +100,8 @@ export const bikinDaftarHadirSeluruhDosenHariIni = async () => {
     const tglHariIni = `${date.getFullYear()}-${(date.getMonth() + 1) <= 9 ? ('0' + (date.getMonth() + 1)) : (date.getMonth() + 1)}-${date.getDate() <= 9 ? ('0' + date.getDate()) : date.getDate()}`
     const allDosen = await DosenDAO.findAllDosen()
     allDosen.forEach(async (dosen) => {
-      const jadwalHariIni = await JadwalDAO.getJadwalDosenHrTertentu(dosen.nip, date.getDay())
-      await Promise.all(jadwalHariIni.map(async (jadwal) => {
+      const jadwalIni = await JadwalDAO.getJadwalDosenHrTertentu(dosen.nip, date.getDay())
+      await Promise.all(jadwalIni.map(async (jadwal) => {
         const isPunya = await isSudahPunyaDaftarHadir(dosen.nip, tglHariIni, jadwal.id_jadwal)
         if (!isPunya) {
           // bikin daftar hadir untuk setiap jadwal hari ini

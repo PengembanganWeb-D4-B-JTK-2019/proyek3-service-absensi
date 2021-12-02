@@ -1,5 +1,23 @@
 import * as JadwalDAO from '../dao/Jadwal'
 
+// New Method From 19
+export const getJadwalDosenHariTertentu = async (req, res) => {
+  const { NIP } = req.params
+  const { hari } = req.params
+  try {
+    const result = await JadwalDAO.getJadwalDosenHariTertentu(NIP, hari)
+    res.json({
+      message: `Jadwal kuliah Dosen ${NIP} pada hari ${hari}`,
+      data: {
+        jadwal: result
+      }
+    })
+  } catch (error) {
+    res.status(error.status).json({ error })
+  }
+}
+
+//
 export const getJadwalMhsHrTertentuHandler = async (req, res) => {
   const nim = req.query.nim
   const hari = req.query.hari

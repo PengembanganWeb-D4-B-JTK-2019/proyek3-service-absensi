@@ -1,6 +1,24 @@
 import Jadwal from '../models/Jadwal'
 import db from '../db'
 
+// new Method From 19
+export const getJadwalDosenHariTertentu = async (NIP, hari) => {
+  try {
+    const jadwal = await db.query(`
+    SELECT waktu_mulai, waktu_selesai, id_mata_kuliah, nama_mata_kuliah FROM "Jadwal" jadwal  
+    INNER JOIN "Perkuliahan" perkuliahan ON jadwal.id_perkuliahan = perkuliahan.id
+    INNER JOIN "Mata_Kuliah" matkul ON perkuliahan.id_mata_kuliah = matkul.id
+    INNER JOIN "Pengajar" pengajar ON pengajar.id_perkuliahan = perkuliahan.id 
+    WHERE pengajar.nip = '${NIP}' AND jadwal.hari = ${hari}
+    ORDER BY jadwal.id_jadwal ASC;
+    `)
+    return jadwal
+  } catch (error) {
+    return Promise.reject(error)
+  }
+}
+//
+
 export const findJadwalById = async (idJadwal) => {
   try {
     const jadwal = await Jadwal.findAll({
