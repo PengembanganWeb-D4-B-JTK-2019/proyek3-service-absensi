@@ -1,6 +1,45 @@
 import Mahasiswa from '../models/Mahasiswa'
 import sequelize from '../db.js'
+// new Method From 19
+export const dosenGetMhsByMatkul = async (idMatkul) => {
+  try {
+    const mahasiswa = await sequelize.query(`
+    SELECT mhs."nim","nama", "isHadir",daftarhdrmhs."id_studi",
+    daftarhdrmhs."id_studi", studi."id_perkuliahan",perkuliahan."id_mata_kuliah"
+    FROM "Mahasiswa" mhs  
+    INNER JOIN "daftar_hadir_mahasiswa" daftarhdrmhs ON daftarhdrmhs.nim = mhs.nim
+    INNER JOIN "Studi" studi ON studi.id = daftarhdrmhs.id_studi
+    INNER JOIN "Perkuliahan" perkuliahan ON studi.id_perkuliahan = perkuliahan.id
+    INNER JOIN "Mata_Kuliah" mk ON mk.id = perkuliahan.id_mata_kuliah
+    WHERE perkuliahan.id_mata_kuliah = '${idMatkul}';
+    `)
+    return mahasiswa
+  } catch (error) {
+    return Promise.reject(error)
+  }
+}
 
+export const dosenGetOneMhsByNIM = async (NIM) => {
+  try {
+    const mahasiswa = await sequelize.query(`
+    SELECT mhs."nim","nama", "isHadir", "nama_mata_kuliah", 
+    daftarhdrmhs."id_studi",studi."id_perkuliahan",
+    perkuliahan."id_mata_kuliah", daftarhdrmhs."id_keterangan","status"
+    FROM "Mahasiswa" mhs  
+    INNER JOIN "daftar_hadir_mahasiswa" daftarhdrmhs ON daftarhdrmhs.nim = mhs.nim
+    INNER JOIN "Studi" studi ON studi.id = daftarhdrmhs.id_studi
+    INNER JOIN "Perkuliahan" perkuliahan ON studi.id_perkuliahan = perkuliahan.id
+    INNER JOIN "Mata_Kuliah" mk ON mk.id = perkuliahan.id_mata_kuliah
+    INNER JOIN "Keterangan" keterangan ON daftarhdrmhs.id_keterangan = keterangan.id_keterangan
+    WHERE mhs.nim = '${NIM}'
+;
+    `)
+    return mahasiswa
+  } catch (error) {
+    return Promise.reject(error)
+  }
+}
+//
 export const findOneMahasiswaByNIM = async (NIM) => {
   try {
     const mahasiswa = await Mahasiswa.findAll({

@@ -1,6 +1,38 @@
 import * as MahasiswaDAO from '../dao/Mahasiswa'
 import { validationResult } from 'express-validator/check'
 
+// New Method From 19
+export const dosenGetMhsByMatkul = async (req, res) => {
+  const { idMatkul } = req.params
+  try {
+    const result = await MahasiswaDAO.dosenGetMhsByMatkul(idMatkul)
+    res.json({
+      message: `Data Mahasiswa berdasarkan Id Mata Kuliah ${idMatkul}`,
+      data: {
+        mahasiswa: result
+      }
+    })
+  } catch (error) {
+    res.status(error.status).json({ error })
+  }
+}
+
+export const dosenGetOneMhsByNIM = async (req, res) => {
+  const { NIM } = req.params
+  try {
+    const result = await MahasiswaDAO.dosenGetOneMhsByNIM(NIM)
+    res.json({
+      message: `Data Rekap Presensi Mahasiswa dengan NIM ${NIM}`,
+      data: {
+        mahasiswa: result
+      }
+    })
+  } catch (error) {
+    res.status(error.status).json({ error })
+  }
+}
+
+//
 export const postNewMahasiswa = async (req, res, next) => {
   try {
     const {

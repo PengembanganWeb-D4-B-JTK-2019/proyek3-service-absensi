@@ -5,7 +5,7 @@ import db from '../db'
 export const getJadwalDosenHariTertentu = async (NIP, hari) => {
   try {
     const jadwal = await db.query(`
-    SELECT waktu_mulai, waktu_selesai, id_mata_kuliah, nama_mata_kuliah FROM "Jadwal" jadwal  
+    SELECT waktu_mulai, waktu_selesai, id_mata_kuliah, nama_mata_kuliah, jenis FROM "Jadwal" jadwal  
     INNER JOIN "Perkuliahan" perkuliahan ON jadwal.id_perkuliahan = perkuliahan.id
     INNER JOIN "Mata_Kuliah" matkul ON perkuliahan.id_mata_kuliah = matkul.id
     INNER JOIN "Pengajar" pengajar ON pengajar.id_perkuliahan = perkuliahan.id 
