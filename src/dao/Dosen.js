@@ -2,10 +2,11 @@ import Dosen from '../models/Dosen.js'
 import sequelize from '../db.js'
 
 // new Method From 19
-export const getPresensiDosenTertentu = async (NIP) => {
+export const getPresensiDosenTertentuWithMatkul = async (NIP) => {
   try {
     const result = await sequelize.query(`
-    SELECT pengajar.nip, h_dosen."isHadir", matkul.id, matkul.nama_mata_kuliah 
+    SELECT pengajar.nip,h_dosen."tanggal", h_dosen."isHadir",
+    perkuliahan.id_mata_kuliah, matkul.nama_mata_kuliah 
     FROM "Pengajar" pengajar
     INNER JOIN "daftar_hadir_dosen" h_dosen ON pengajar.nip = h_dosen.nip
     INNER JOIN "Perkuliahan" perkuliahan ON pengajar.id_perkuliahan = perkuliahan.id
@@ -13,7 +14,7 @@ export const getPresensiDosenTertentu = async (NIP) => {
     WHERE pengajar.nip = '${NIP}'
 ;
     `)
-    return result
+    return result[0]
   } catch (error) {
     return Promise.reject(error)
   }

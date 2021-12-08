@@ -10,6 +10,6 @@ router.get('', DosenController.getDosenByJabatan)
 router.post('/new-dosen', ValidatorSanitizer.postNewDosen, DosenController.postNewDosen)
 router.delete('/delete/:NIP', DosenController.deleteDosenByNIP)
 // New Router From 19
-router.get('/get/:NIP', DosenController.getPresensiDosenTertentu)
+router.get('/get/:NIP', DosenController.getPresensiDosenTertentuWithMatkul)
 //
 export default router

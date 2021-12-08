@@ -142,7 +142,7 @@ export const getDaftarHadirKelasJadwal = async (kodeKelas, idJadwal, tanggal) =>
 
     const resultPretty = {
       // rapihin dulu
-      id_jadwal: resultRow[0].id_jadwal,
+      id_jadwal: result.id_jadwal,
       id_perkuliahan: resultRow[0].id_perkuliahan,
       nama_mata_kuliah: resultRow[0].nama_mata_kuliah,
       kode_kelas: resultRow[0].kode_kelas,

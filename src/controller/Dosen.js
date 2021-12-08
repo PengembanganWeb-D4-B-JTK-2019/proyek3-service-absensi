@@ -2,12 +2,12 @@ import * as DosenDAO from '../dao/Dosen'
 import { validationResult } from 'express-validator/check'
 
 // New Method From 19
-export const getPresensiDosenTertentu = async (req, res) => {
+export const getPresensiDosenTertentuWithMatkul = async (req, res) => {
   const { NIP } = req.params
   try {
-    const result = await DosenDAO.getPresensiDosenTertentu(NIP)
+    const result = await DosenDAO.getPresensiDosenTertentuWithMatkul(NIP)
     res.json({
-      message: `Data Presensi Dosen ${NIP}  `,
+      message: `Data Presensi Dosen  ${NIP} Dengan Matkul Yang Diajar `,
       data: {
         presensi: result
       }

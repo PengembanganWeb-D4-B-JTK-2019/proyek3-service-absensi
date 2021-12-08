@@ -12,7 +12,7 @@ export const getJadwalDosenHariTertentu = async (NIP, hari) => {
     WHERE pengajar.nip = '${NIP}' AND jadwal.hari = ${hari}
     ORDER BY jadwal.id_jadwal ASC;
     `)
-    return jadwal
+    return jadwal[0]
   } catch (error) {
     return Promise.reject(error)
   }

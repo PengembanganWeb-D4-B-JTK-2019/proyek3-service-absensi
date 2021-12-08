@@ -11,7 +11,7 @@ export const getRekapPresensiDosenTertentu = async (NIP) => {
     WHERE "nip" = '${NIP}'
 ;
     `)
-    return result
+    return result[0]
   } catch (error) {
     return Promise.reject(error)
   }
